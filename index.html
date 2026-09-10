@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Okay Legacy — A Private Vault for the Stories That Matter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #121210;
+    --charcoal-2: #1a1916;
+    --charcoal-3: #201f1a;
+    --ivory: #f3ede1;
+    --ivory-dim: #d9d1bf;
+    --ink: #0c0b09;
+    --bronze: #ab8354;
+    --bronze-bright: #cfa06a;
+    --bronze-dim: #6e5636;
+    --stone: #948c78;
+    --hairline: rgba(171,131,84,0.22);
+    --hairline-soft: rgba(243,237,225,0.1);
+    --ease: cubic-bezier(.19,1,.22,1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--charcoal);
+    color:var(--ivory);
+    font-family:'Inter', sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--bronze-dim); color:var(--ivory); }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    color:var(--ivory);
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+
+  img,svg{ display:block; max-width:100%; }
+
+  .wrap{
+    max-width:1240px;
+    margin:0 auto;
+    padding:0 48px;
+  }
+
+  @media (max-width:768px){
+    .wrap{ padding:0 24px; }
+  }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:1px solid var(--bronze-bright);
+    outline-offset:4px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:26px 0;
+    transition:padding .5s var(--ease), background .5s var(--ease), border-color .5s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.site-nav.scrolled{
+    padding:16px 0;
+    background:rgba(18,18,16,0.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--hairline);
+  }
+  header.site-nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logotype{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    letter-spacing:0.02em;
+    color:var(--ivory);
+  }
+  .logotype span.rule{
+    width:1px; height:16px; background:var(--bronze);
+    display:inline-block;
+  }
+  .logotype b{ font-weight:500; }
+  .logotype i{ font-style:italic; font-weight:300; color:var(--stone); }
+
+  .nav-cta{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--ivory-dim);
+    border-bottom:1px solid var(--bronze-dim);
+    padding-bottom:3px;
+    transition:color .3s ease, border-color .3s ease;
+  }
+  .nav-cta:hover{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    padding-top:120px;
+    padding-bottom:80px;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 60% 55% at 78% 40%, rgba(171,131,84,0.09), transparent 70%);
+    pointer-events:none;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    align-items:center;
+    gap:40px;
+    position:relative;
+  }
+  .hero-copy{ max-width:620px; }
+  .hero-eyebrow{
+    font-size:13px;
+    color:var(--bronze);
+    letter-spacing:0.06em;
+    margin-bottom:26px;
+    font-family:'Inter',sans-serif;
+    font-weight:400;
+    opacity:0;
+  }
+  .hero h1{
+    font-size:clamp(38px, 4.6vw, 64px);
+    line-height:1.09;
+    font-weight:400;
+    margin-bottom:30px;
+    overflow:hidden;
+  }
+  .hero h1 .line{ display:block; overflow:hidden; }
+  .hero h1 .line span{ display:block; transform:translateY(110%); }
+
+  .hero p.sub{
+    font-size:18px;
+    color:var(--ivory-dim);
+    max-width:460px;
+    margin-bottom:44px;
+    font-weight:300;
+    opacity:0;
+  }
+  .hero p.sub em{ font-style:italic; color:var(--ivory); }
+
+  .btn-primary{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    padding:17px 34px;
+    border:1px solid var(--bronze);
+    color:var(--ivory);
+    font-size:14px;
+    letter-spacing:0.03em;
+    overflow:hidden;
+    opacity:0;
+  }
+  .btn-primary .fill{
+    position:absolute; inset:0;
+    background:var(--bronze);
+    transform:translateX(-101%);
+    z-index:0;
+  }
+  .btn-primary span{ position:relative; z-index:1; transition:color .4s var(--ease); }
+  .btn-primary:hover span{ color:var(--ink); }
+
+  .hero-visual{
+    position:relative;
+    height:520px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .hero-visual svg{ width:100%; height:100%; }
+
+  .scroll-cue{
+    position:absolute;
+    bottom:36px; left:48px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--stone);
+    opacity:0;
+  }
+  .scroll-cue .stem{
+    width:1px; height:38px;
+    background:linear-gradient(var(--bronze), transparent);
+  }
+  @media (max-width:768px){
+    .scroll-cue{ display:none; }
+  }
+
+  @media (max-width:900px){
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero-visual{ height:280px; order:-1; }
+  }
+
+  /* ---------- LIFE CLOCK ---------- */
+  .life-clock{
+    padding:90px 0 100px;
+    border-top:1px solid var(--hairline-soft);
+    border-bottom:1px solid var(--hairline-soft);
+  }
+  .life-clock-head{
+    max-width:620px;
+    margin-bottom:56px;
+  }
+  .life-clock-head h3{
+    font-size:clamp(22px,2.4vw,28px);
+    font-weight:400;
+    margin-bottom:16px;
+  }
+  .life-clock-head p{
+    color:var(--ivory-dim);
+    font-size:15px;
+    max-width:520px;
+  }
+  .life-clock-row{
+    display:flex;
+    border-top:1px solid var(--hairline);
+    border-left:1px solid var(--hairline);
+    flex-wrap:wrap;
+  }
+  .lc-cell{
+    flex:1 1 0;
+    min-width:110px;
+    padding:26px 20px;
+    border-right:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+    text-align:left;
+  }
+  .lc-num{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    font-size:clamp(26px,3vw,38px);
+    color:var(--ivory);
+    font-variant-numeric:tabular-nums;
+    line-height:1;
+    margin-bottom:10px;
+  }
+  .lc-cell.is-seconds .lc-num{ color:var(--bronze-bright); }
+  .lc-label{
+    font-size:12px;
+    color:var(--stone);
+    letter-spacing:0.03em;
+  }
+  @media (max-width:900px){
+    .lc-cell{ flex:1 1 30%; }
+  }
+  @media (max-width:560px){
+    .lc-cell{ flex:1 1 45%; }
+  }
+
+  /* ---------- SECTION SCAFFOLD ---------- */
+  section{ position:relative; padding:150px 0; }
+  @media (max-width:768px){ section{ padding:100px 0; } }
+
+  .section-head{
+    display:grid;
+    grid-template-columns:0.9fr 1.1fr;
+    gap:60px;
+    margin-bottom:80px;
+  }
+  .section-head h2{
+    font-size:clamp(30px,3.4vw,46px);
+    line-height:1.16;
+    font-weight:400;
+  }
+  .section-head .lede{
+    color:var(--ivory-dim);
+    font-size:17px;
+    padding-top:8px;
+    max-width:440px;
+  }
+  @media (max-width:840px){
+    .section-head{ grid-template-columns:1fr; gap:24px; }
+  }
+
+  .reveal{ opacity:0; transform:translateY(28px); }
+
+  /* ---------- ABOUT ---------- */
+  .about{ background:var(--charcoal-2); border-top:1px solid var(--hairline-soft); border-bottom:1px solid var(--hairline-soft); }
+  .about-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:70px;
+    align-items:start;
+  }
+  .about-grid .col p{
+    color:var(--ivory-dim);
+    font-size:16.5px;
+    margin-bottom:22px;
+    max-width:480px;
+  }
+  .about-grid .col p:last-child{ margin-bottom:0; }
+  .about-owned{
+    margin-top:36px;
+    padding-top:28px;
+    border-top:1px solid var(--hairline);
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:21px;
+    color:var(--bronze-bright);
+    max-width:420px;
+    line-height:1.4;
+  }
+  .vault-contents{
+    display:grid;
+    gap:0;
+  }
+  .vault-contents .item{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    gap:20px;
+    padding:26px 0;
+    border-bottom:1px solid var(--hairline);
+  }
+  .vault-contents .item:first-child{ border-top:1px solid var(--hairline); }
+  .vault-contents .item .mark{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--bronze);
+    font-size:15px;
+    padding-top:3px;
+  }
+  .vault-contents .item h4{ font-size:18px; font-weight:400; margin-bottom:6px; }
+  .vault-contents .item p{ color:var(--stone); font-size:14.5px; max-width:340px; }
+
+  @media (max-width:840px){ .about-grid{ grid-template-columns:1fr; gap:50px; } }
+
+  /* ---------- PROCESS ---------- */
+  .process-list{ max-width:900px; }
+  .process-item{
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:36px;
+    padding:44px 0;
+    border-top:1px solid var(--hairline);
+    position:relative;
+  }
+  .process-list .process-item:last-child{ border-bottom:1px solid var(--hairline); }
+  .process-item .num{
+    font-family:'Fraunces', serif;
+    font-size:20px;
+    color:var(--bronze);
+    font-style:italic;
+    padding-top:4px;
+  }
+  .process-item h3{ font-size:24px; font-weight:400; margin-bottom:10px; }
+  .process-item p{ color:var(--ivory-dim); max-width:520px; font-size:15.5px; }
+  .process-item .tag{
+    font-size:12px; color:var(--stone); letter-spacing:0.04em;
+    margin-top:14px;
+  }
+  @media (max-width:600px){
+    .process-item{ grid-template-columns:1fr; gap:10px; }
+  }
+
+  /* ---------- TIERS ---------- */
+  .tiers{ background:var(--charcoal-2); border-top:1px solid var(--hairline-soft); border-bottom:1px solid var(--hairline-soft); }
+  .tier-table{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    border-top:1px solid var(--hairline);
+    border-left:1px solid var(--hairline);
+  }
+  .tier-card{
+    padding:48px 38px;
+    border-right:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+    position:relative;
+    transition:background .4s ease;
+    cursor:pointer;
+  }
+  .tier-card .glow{
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 0%, rgba(171,131,84,0.14), transparent 65%);
+    opacity:0;
+    transition:opacity .5s ease;
+    pointer-events:none;
+  }
+  .tier-card:hover .glow{ opacity:1; }
+  .tier-card .kicker{ font-size:12.5px; color:var(--stone); letter-spacing:0.04em; margin-bottom:18px; }
+  .tier-card h3{ font-size:25px; font-weight:400; margin-bottom:16px; }
+  .tier-card .price{ font-family:'Fraunces', serif; font-size:36px; color:var(--bronze-bright); margin-bottom:26px; font-weight:400; }
+  .tier-card .price sup{ font-size:15px; color:var(--stone); font-family:'Inter',sans-serif; }
+  .tier-card p.desc{ color:var(--ivory-dim); font-size:14.5px; margin-bottom:26px; min-height:66px; }
+  .tier-card ul{ list-style:none; margin-bottom:34px; }
+  .tier-card ul li{
+    font-size:13.5px; color:var(--ivory-dim);
+    padding:10px 0;
+    border-top:1px solid var(--hairline-soft);
+    display:flex; gap:10px;
+  }
+  .tier-card ul li::before{ content:"—"; color:var(--bronze); flex-shrink:0; }
+  .tier-card .select{
+    font-size:13px; letter-spacing:0.03em; color:var(--ivory);
+    border-bottom:1px solid var(--bronze-dim);
+    padding-bottom:4px; display:inline-block;
+    transition:color .3s ease, border-color .3s ease;
+  }
+  .tier-card:hover .select{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
+  .tier-card.featured{ background:var(--charcoal-3); }
+  .tier-card.featured .kicker{ color:var(--bronze); }
+
+  @media (max-width:900px){
+    .tier-table{ grid-template-columns:1fr; }
+  }
+
+  /* ---------- CONFIDENTIALITY ---------- */
+  .confidential{
+    background:var(--ink);
+    text-align:center;
+    padding:170px 0;
+  }
+  .confidential .wrap{ max-width:760px; }
+  .confidential .mark{
+    font-size:13px; color:var(--bronze); letter-spacing:0.08em; margin-bottom:30px;
+  }
+  .confidential h2{
+    font-size:clamp(28px,3.6vw,44px);
+    line-height:1.25;
+    font-weight:400;
+    margin-bottom:34px;
+  }
+  .confidential p{
+    color:var(--stone);
+    font-size:16px;
+    max-width:560px;
+    margin:0 auto 46px;
+  }
+  .confidential .box{
+    display:inline-block;
+    border:1px solid var(--hairline);
+    padding:22px 40px;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:16px;
+    color:var(--ivory-dim);
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{ padding:150px 0 0; }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:0.8fr 1.2fr;
+    gap:80px;
+  }
+  .contact-info h2{ font-size:clamp(30px,3.4vw,44px); font-weight:400; margin-bottom:24px; max-width:380px; }
+  .contact-info p{ color:var(--ivory-dim); font-size:15.5px; max-width:360px; margin-bottom:40px; }
+  .contact-info .detail{ margin-bottom:22px; }
+  .contact-info .detail .label{ font-size:12px; color:var(--stone); letter-spacing:0.04em; margin-bottom:6px; }
+  .contact-info .detail .value{ font-size:15.5px; color:var(--ivory); }
+
+  form.inquiry{ max-width:520px; }
+  .field{ position:relative; margin-bottom:34px; }
+  .field label{
+    display:block; font-size:12.5px; color:var(--stone); margin-bottom:10px; letter-spacing:0.02em;
+  }
+  .field input, .field textarea{
+    width:100%;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--hairline);
+    color:var(--ivory);
+    font-family:'Inter',sans-serif;
+    font-size:16px;
+    padding:8px 0 12px;
+    transition:border-color .35s ease;
+  }
+  .field textarea{ resize:vertical; min-height:70px; }
+  .field input:focus, .field textarea:focus{ border-color:var(--bronze); outline:none; }
+  .field input::placeholder, .field textarea::placeholder{ color:#4c483e; }
+
+  .submit-btn{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:16px;
+    padding:17px 38px;
+    border:1px solid var(--bronze);
+    color:var(--ivory);
+    font-size:14px;
+    letter-spacing:0.03em;
+    overflow:hidden;
+    margin-top:12px;
+  }
+  .submit-btn .fill{ position:absolute; inset:0; background:var(--bronze); transform:translateX(-101%); z-index:0; }
+  .submit-btn span{ position:relative; z-index:1; transition:color .4s ease; }
+  .submit-btn:hover span{ color:var(--ink); }
+  .submit-btn.sent{ border-color:#7f9c86; }
+
+  .form-success{
+    font-size:14px; color:var(--bronze-bright);
+    margin-top:18px; opacity:0; height:0; overflow:hidden;
+  }
+
+  @media (max-width:840px){ .contact-grid{ grid-template-columns:1fr; gap:56px; } }
+
+  .foot-bottom{
+    margin-top:140px;
+    border-top:1px solid var(--hairline-soft);
+    padding:30px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:12.5px;
+    color:var(--stone);
+  }
+  @media (max-width:600px){
+    .foot-bottom{ flex-direction:column; gap:10px; text-align:center; }
+  }
+
+  /* ---------- MODAL ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0;
+    background:rgba(9,8,7,0.6);
+    backdrop-filter:blur(6px);
+    z-index:200;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .modal-backdrop.open{ pointer-events:auto; }
+  .modal{
+    position:fixed;
+    top:50%; left:50%;
+    width:min(520px, 88vw);
+    max-height:86vh;
+    overflow-y:auto;
+    background:var(--charcoal-2);
+    border:1px solid var(--hairline);
+    padding:48px 44px;
+    z-index:201;
+    transform:translate(-50%,-50%) translateY(24px) scale(0.97);
+    opacity:0;
+    visibility:hidden;
+  }
+  .modal-close{
+    position:absolute; top:24px; right:28px;
+    font-size:22px; color:var(--stone);
+    line-height:1;
+    transition:color .3s ease;
+  }
+  .modal-close:hover{ color:var(--ivory); }
+  .modal .eyebrow{ font-size:12px; color:var(--bronze); letter-spacing:0.05em; margin-bottom:18px; }
+  .modal h3{ font-size:26px; font-weight:400; margin-bottom:14px; }
+  .modal p{ color:var(--ivory-dim); font-size:14.5px; margin-bottom:30px; }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="wrap">
+    <div class="logotype"><b>Okay</b><span class="rule"></span><i>Legacy</i></div>
+    <a href="#contact" class="nav-cta">Enquire in confidence</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="hero-eyebrow" id="heroEyebrow">A private memory vault, not a public book</div>
+      <h1 id="heroHeadline">
+        <span class="line"><span>Preserving the stories</span></span>
+        <span class="line"><span>and voices that families</span></span>
+        <span class="line"><span>should never lose.</span></span>
+      </h1>
+      <p class="sub" id="heroSub">Leave behind a living, private memory. So the searching can stop, and the <em>knowing</em> can begin.</p>
+      <a href="#" class="btn-primary" id="ctaBegin"><span class="fill"></span><span>Begin Your Legacy</span></a>
+    </div>
+    <div class="hero-visual" id="heroVisual">
+      <svg viewBox="0 0 400 400" fill="none">
+        <g id="dialGroup">
+          <circle cx="200" cy="200" r="170" stroke="rgba(171,131,84,0.28)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="130" stroke="rgba(171,131,84,0.4)" stroke-width="1"/>
+          <circle cx="200" cy="200" r="92" stroke="rgba(171,131,84,0.55)" stroke-width="1"/>
+          <g id="ticks" stroke="rgba(171,131,84,0.5)" stroke-width="1">
+          </g>
+          <circle cx="200" cy="200" r="4" fill="#cfa06a"/>
+          <line x1="200" y1="200" x2="200" y2="70" stroke="#cfa06a" stroke-width="1.4"/>
+          <line x1="200" y1="200" x2="270" y2="200" stroke="#6e5636" stroke-width="1.4"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div class="scroll-cue" id="scrollCue"><span class="stem"></span> Scroll to enter the vault</div>
+</section>
+
+<section class="life-clock" id="lifeClock">
+  <div class="wrap">
+    <div class="life-clock-head">
+      <h3 class="reveal">An average lifetime, counted from today.</h3>
+      <p class="reveal">This is roughly how much time a life holds. None of it announces itself in advance — which is exactly why a record is worth making now, not later.</p>
+    </div>
+    <div class="life-clock-row reveal" id="lifeClockRow">
+      <div class="lc-cell"><div class="lc-num" id="lcYears">80</div><div class="lc-label">Years</div></div>
+      <div class="lc-cell"><div class="lc-num" id="lcMonths">0</div><div class="lc-label">Months</div></div>
+      <div class="lc-cell"><div class="lc-num" id="lcWeeks">0</div><div class="lc-label">Weeks</div></div>
+      <div class="lc-cell"><div class="lc-num" id="lcDays">0</div><div class="lc-label">Days</div></div>
+      <div class="lc-cell"><div class="lc-num" id="lcHours">0</div><div class="lc-label">Hours</div></div>
+      <div class="lc-cell"><div class="lc-num" id="lcMinutes">0</div><div class="lc-label">Minutes</div></div>
+      <div class="lc-cell is-seconds"><div class="lc-num" id="lcSeconds">0</div><div class="lc-label">Seconds</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="vault">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="reveal">This is not a book for the world.<br>It is a vault for your family.</h2>
+      <p class="lede reveal">Okay Legacy does not publish. We record, we film, we write, and then we seal — building a private archive that belongs to no one but the people you choose to give it to.</p>
+    </div>
+    <div class="about-grid">
+      <div class="col reveal">
+        <p>Every engagement begins the same way: with listening. Over private sessions, we draw out the memories, the turning points, and the voice itself — recorded the way it actually sounds, not the way it is remembered.</p>
+        <p>What emerges is a digital vault holding spoken voice, selected film, and a written narrative shaped from your own words, encrypted and held under access controls only your family can grant.</p>
+        <div class="about-owned">The memory is never ours to publish, license, or hold over you. It is owned by the family, in perpetuity.</div>
+      </div>
+      <div class="vault-contents reveal">
+        <div class="item">
+          <div class="mark">I</div>
+          <div><h4>Spoken voice</h4><p>Unedited recordings of how they actually speak, laugh, and pause.</p></div>
+        </div>
+        <div class="item">
+          <div class="mark">II</div>
+          <div><h4>Selected film</h4><p>Intimate footage, chosen and cut with restraint, never staged for effect.</p></div>
+        </div>
+        <div class="item">
+          <div class="mark">III</div>
+          <div><h4>Written narrative</h4><p>A private manuscript drawn from the interviews, for reading long after.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="reveal">Four private stages,<br>one sealed archive.</h2>
+      <p class="lede reveal">Every engagement is handled by a small, dedicated team, from first conversation to final delivery.</p>
+    </div>
+    <div class="process-list">
+      <div class="process-item reveal">
+        <div class="num">I</div>
+        <div><h3>Private Consultation</h3><p>A confidential conversation to understand who this is for, what should be preserved, and who should ever be permitted to see it.</p><div class="tag">In person or by secure call</div></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="num">II</div>
+        <div><h3>Guided Recorded Interviews</h3><p>Unhurried sessions with an interviewer trained to draw out real memory, not a rehearsed version of it.</p><div class="tag">2–6 sessions, on your schedule</div></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="num">III</div>
+        <div><h3>Professional Filming</h3><p>A small crew captures footage with the discretion of a private shoot, never a production set.</p><div class="tag">Tiers II and III</div></div>
+      </div>
+      <div class="process-item reveal">
+        <div class="num">IV</div>
+        <div><h3>Secure Vault Delivery</h3><p>The finished archive is delivered into an encrypted vault, with access granted only to those you name.</p><div class="tag">Handover with your legal counsel, if required</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="tiers" id="tiers">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="reveal">Three ways to begin,<br>one standard of care.</h2>
+      <p class="lede reveal">Every tier is handled with the same discretion. What changes is the depth of the record we build.</p>
+    </div>
+  </div>
+  <div class="tier-table reveal">
+    <div class="tier-card" data-tier="Starter Pack">
+      <div class="glow"></div>
+      <div class="kicker">For a first record</div>
+      <h3>Starter Pack</h3>
+      <div class="price">$1,350</div>
+      <p class="desc">A focused single-session record, ideal for capturing one voice before time runs short.</p>
+      <ul>
+        <li>One guided interview session</li>
+        <li>Full transcription</li>
+        <li>Basic digital memory file</li>
+        <li>Personal-use only, unencrypted delivery</li>
+      </ul>
+      <span class="select">Enquire about this tier</span>
+    </div>
+    <div class="tier-card featured" data-tier="Digital Legacy Core">
+      <div class="glow"></div>
+      <div class="kicker">Our most requested</div>
+      <h3>Digital Legacy Core</h3>
+      <div class="price">$4,030</div>
+      <p class="desc">The complete written and spoken archive, held in a private vault built for one family.</p>
+      <ul>
+        <li>Full interview series</li>
+        <li>Written narrative manuscript</li>
+        <li>Original, unedited audio</li>
+        <li>Private encrypted digital vault</li>
+      </ul>
+      <span class="select">Enquire about this tier</span>
+    </div>
+    <div class="tier-card" data-tier="Multimedia Vault">
+      <div class="glow"></div>
+      <div class="kicker">For a lasting film</div>
+      <h3>Multimedia Vault</h3>
+      <div class="price">$13,500</div>
+      <p class="desc">A professionally filmed mini-documentary, built with a full narrative arc and archival care.</p>
+      <ul>
+        <li>Everything in Digital Legacy Core</li>
+        <li>Professional short film</li>
+        <li>Story buildup and structured arc</li>
+        <li>Legal custody option available</li>
+      </ul>
+      <span class="select">Enquire about this tier</span>
+    </div>
+  </div>
+</section>
+
+<section class="confidential">
+  <div class="wrap">
+    <div class="mark">Confidentiality</div>
+    <h2 class="reveal">For those who require the highest level of secrecy, we do not need to hold anything at all.</h2>
+    <p class="reveal">On request, every recording, film, and manuscript can be delivered directly into the custody of your own attorney, under strict legal privilege, with Okay Legacy retaining no copy.</p>
+    <div class="box reveal">No copy. No record. No exception.</div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <h2>Begin with a private conversation.</h2>
+        <p>Every enquiry is handled personally and in confidence. We will respond within one business day.</p>
+        <div class="detail"><div class="label">Direct line</div><div class="value">By appointment only</div></div>
+        <div class="detail"><div class="label">Correspondence</div><div class="value">enquiries@okaylegacy.com</div></div>
+        <div class="detail"><div class="label">Hours</div><div class="value">Monday–Friday, 9:00–18:00</div></div>
+      </div>
+      <form class="inquiry reveal" id="inquiryForm">
+        <div class="field">
+          <label for="fname">Full name</label>
+          <input type="text" id="fname" placeholder="Your name" required>
+        </div>
+        <div class="field">
+          <label for="femail">Email address</label>
+          <input type="email" id="femail" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="fmessage">A brief note on who this is for</label>
+          <textarea id="fmessage" placeholder="Tell us a little about the person and the story you'd like preserved."></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn"><span class="fill"></span><span id="submitLabel">Request a private consultation</span></button>
+        <div class="form-success" id="formSuccess">Thank you. Your enquiry has been received in confidence — we will be in touch within one business day.</div>
+      </form>
+    </div>
+    <div class="foot-bottom">
+      <div>Okay Legacy — Private digital memory vaults</div>
+      <div>Confidential by design</div>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="eyebrow" id="modalEyebrow">Private enquiry</div>
+    <h3 id="modalTitle">Begin Your Legacy</h3>
+    <p id="modalText">Share a few details and a member of our team will reach out personally to arrange a confidential first conversation.</p>
+    <form id="modalForm">
+      <div class="field">
+        <label for="mname">Full name</label>
+        <input type="text" id="mname" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="memail">Email address</label>
+        <input type="email" id="memail" placeholder="you@example.com" required>
+      </div>
+      <button type="submit" class="submit-btn" id="modalSubmit"><span class="fill"></span><span>Send privately</span></button>
+      <div class="form-success" id="modalSuccess">Received. We will contact you within one business day.</div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* build tick marks on the dial */
+(function buildTicks(){
+  const ticks = document.getElementById('ticks');
+  const cx=200, cy=200, r1=170, r2=178;
+  for(let i=0;i<48;i++){
+    const angle = (i/48)*Math.PI*2;
+    const x1 = cx + r1*Math.cos(angle);
+    const y1 = cy + r1*Math.sin(angle);
+    const x2 = cx + r2*Math.cos(angle);
+    const y2 = cy + r2*Math.sin(angle);
+    const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1); line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2); line.setAttribute('y2',y2);
+    ticks.appendChild(line);
+  }
+})();
+
+/* nav shrink */
+const nav = document.getElementById('siteNav');
+ScrollTrigger.create({
+  start: 20,
+  onUpdate: (self) => {
+    nav.classList.toggle('scrolled', self.scroll() > 20);
+  }
+});
+
+/* ---------- HERO LOAD SEQUENCE (the one orchestrated moment) ---------- */
+const heroTl = gsap.timeline({ defaults:{ ease:"power3.out" } });
+heroTl
+  .to('.hero-eyebrow', { opacity:1, y:0, duration:0.7 }, 0.1)
+  .to('.hero h1 .line span', { y:'0%', duration:1.1, stagger:0.12, ease:"expo.out" }, 0.25)
+  .to('.hero p.sub', { opacity:1, duration:0.8 }, 0.9)
+  .to('.btn-primary', { opacity:1, duration:0.7 }, 1.05)
+  .to('#scrollCue', { opacity:1, duration:0.8 }, 1.3)
+  .from('#heroVisual', { opacity:0, scale:0.92, duration:1.4, ease:"power2.out" }, 0.4);
+
+/* slow dial rotation + scroll parallax */
+gsap.to('#dialGroup', { rotate:360, transformOrigin:"200px 200px", duration:140, repeat:-1, ease:"none" });
+gsap.to('#heroVisual', {
+  yPercent: 18,
+  ease:"none",
+  scrollTrigger:{ trigger:".hero", start:"top top", end:"bottom top", scrub:true }
+});
+
+/* ---------- SCROLL REVEALS ---------- */
+document.querySelectorAll('.reveal').forEach((el) => {
+  gsap.to(el, {
+    opacity:1, y:0, duration:1,
+    ease:"power3.out",
+    scrollTrigger:{ trigger:el, start:"top 85%" }
+  });
+});
+
+/* staggered process steps */
+gsap.utils.toArray('.process-item').forEach((item, i) => {
+  gsap.fromTo(item, { opacity:0, y:26 }, {
+    opacity:1, y:0, duration:0.9, ease:"power3.out",
+    scrollTrigger:{ trigger:item, start:"top 88%" },
+    delay: i*0.05
+  });
+});
+
+/* staggered vault contents + tier cards */
+gsap.utils.toArray('.vault-contents .item').forEach((item,i)=>{
+  gsap.fromTo(item, {opacity:0, y:18}, {
+    opacity:1, y:0, duration:0.8, ease:"power2.out",
+    delay:i*0.08,
+    scrollTrigger:{ trigger:item, start:"top 90%" }
+  });
+});
+
+gsap.utils.toArray('.tier-card').forEach((card,i)=>{
+  gsap.fromTo(card, {opacity:0, y:32}, {
+    opacity:1, y:0, duration:0.9, ease:"power3.out",
+    delay:i*0.12,
+    scrollTrigger:{ trigger:card, start:"top 90%" }
+  });
+
+  card.addEventListener('mouseenter', () => {
+    gsap.to(card, { y:-6, duration:0.5, ease:"power3.out" });
+  });
+  card.addEventListener('mouseleave', () => {
+    gsap.to(card, { y:0, duration:0.5, ease:"power3.out" });
+  });
+});
+
+/* button magnetic-ish hover fill */
+document.querySelectorAll('.btn-primary, .submit-btn').forEach((btn) => {
+  const fill = btn.querySelector('.fill');
+  btn.addEventListener('mouseenter', () => gsap.to(fill, { xPercent:0, x:0, duration:0.5, ease:"power3.out" }));
+  btn.addEventListener('mouseleave', () => gsap.to(fill, { x:'-101%', duration:0.4, ease:"power3.inOut" }));
+});
+
+/* ---------- MODAL ---------- */
+const backdrop = document.getElementById('modalBackdrop');
+const modal = document.getElementById('modal');
+let modalOpen = false;
+
+function openModal(tierName){
+  if(modalOpen) return;
+  modalOpen = true;
+  if(tierName){
+    document.getElementById('modalEyebrow').textContent = "Private enquiry — " + tierName;
+    document.getElementById('modalTitle').textContent = tierName;
+    document.getElementById('modalText').textContent = "Share a few details and a member of our team will reach out personally to discuss the " + tierName + " tier.";
+  } else {
+    document.getElementById('modalEyebrow').textContent = "Private enquiry";
+    document.getElementById('modalTitle').textContent = "Begin Your Legacy";
+    document.getElementById('modalText').textContent = "Share a few details and a member of our team will reach out personally to arrange a confidential first conversation.";
+  }
+  backdrop.classList.add('open');
+  gsap.set(backdrop, { visibility:'visible' });
+  gsap.set(modal, { visibility:'visible' });
+  gsap.to(backdrop, { opacity:1, duration:0.4, ease:"power2.out" });
+  gsap.to(modal, { opacity:1, y:0, scale:1, duration:0.55, ease:"power3.out" });
+}
+
+function closeModal(){
+  modalOpen = false;
+  gsap.to(modal, { opacity:0, y:24, scale:0.97, duration:0.35, ease:"power2.in" });
+  gsap.to(backdrop, { opacity:0, duration:0.35, ease:"power2.in", onComplete:() => {
+    backdrop.classList.remove('open');
+    gsap.set(backdrop, { visibility:'hidden' });
+    gsap.set(modal, { visibility:'hidden' });
+  }});
+}
+
+document.getElementById('ctaBegin').addEventListener('click', (e) => { e.preventDefault(); openModal(null); });
+document.getElementById('modalClose').addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e) => { if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modalOpen) closeModal(); });
+
+document.querySelectorAll('.tier-card').forEach((card) => {
+  card.addEventListener('click', () => openModal(card.dataset.tier));
+});
+
+/* modal form fake-submit */
+document.getElementById('modalForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn = document.getElementById('modalSubmit');
+  const success = document.getElementById('modalSuccess');
+  btn.classList.add('sent');
+  gsap.to(success, { opacity:1, height:'auto', duration:0.5, ease:"power2.out" });
+  setTimeout(closeModal, 2200);
+});
+
+/* main contact form fake-submit */
+document.getElementById('inquiryForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const btn = document.getElementById('submitBtn');
+  const label = document.getElementById('submitLabel');
+  const success = document.getElementById('formSuccess');
+  btn.classList.add('sent');
+  label.textContent = "Enquiry received";
+  gsap.to(success, { opacity:1, height:'auto', duration:0.6, ease:"power2.out" });
+});
+</script>
+</body>
+</html>
