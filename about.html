@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Okay Legacy | Our Philosophy & Curatorial Standard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #121210;
+    --charcoal-2: #1a1916;
+    --charcoal-3: #201f1a;
+    --ivory: #f3ede1;
+    --ivory-dim: #d9d1bf;
+    --ink: #0c0b09;
+    --bronze: #ab8354;
+    --bronze-bright: #cfa06a;
+    --bronze-dim: #6e5636;
+    --stone: #948c78;
+    --hairline: rgba(171,131,84,0.22);
+    --hairline-soft: rgba(243,237,225,0.1);
+    --ease: cubic-bezier(.19,1,.22,1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--charcoal);
+    color:var(--ivory);
+    font-family:'Inter', sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--bronze-dim); color:var(--ivory); }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    color:var(--ivory);
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+
+  .wrap{
+    max-width:1240px;
+    margin:0 auto;
+    padding:0 48px;
+  }
+  @media (max-width:768px){ .wrap{ padding:0 24px; } }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:1px solid var(--bronze-bright);
+    outline-offset:4px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:26px 0;
+    transition:padding .5s var(--ease), background .5s var(--ease), border-color .5s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.site-nav.scrolled{
+    padding:16px 0;
+    background:rgba(18,18,16,0.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .nav-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logotype{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    letter-spacing:0.02em;
+    color:var(--ivory);
+    text-decoration:none;
+  }
+  .logotype span.rule{ width:1px; height:16px; background:var(--bronze); display:inline-block; }
+  .logotype b{ font-weight:500; }
+  .logotype i{ font-style:italic; font-weight:300; color:var(--stone); }
+
+  .nav-links{ display:flex; align-items:center; gap:28px; }
+  .nav-item{
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    color:var(--ivory-dim);
+    transition:color .3s ease;
+    position:relative;
+    padding:4px 0;
+  }
+  .nav-item:hover, .nav-item.active{ color:var(--bronze-bright); }
+  .nav-item.active::after{
+    content:'';
+    position:absolute; bottom:0; left:0; right:0;
+    height:1px; background:var(--bronze);
+  }
+
+  .nav-actions{ display:flex; align-items:center; gap:20px; }
+  .nav-cta{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--ivory-dim);
+    border-bottom:1px solid var(--bronze-dim);
+    padding-bottom:3px;
+    transition:color .3s ease, border-color .3s ease;
+  }
+  .nav-cta:hover{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
+
+  .menu-toggle{
+    display:none; flex-direction:column; gap:6px;
+    width:28px; height:20px; justify-content:center;
+    background:none; border:none; cursor:pointer; padding:0; z-index:101;
+  }
+  .menu-toggle span{
+    display:block; width:100%; height:1.5px;
+    background:var(--ivory); transition:transform .3s ease, opacity .3s ease;
+  }
+  .menu-toggle.open span:first-child{ transform:translateY(3.75px) rotate(45deg); }
+  .menu-toggle.open span:last-child{ transform:translateY(-3.75px) rotate(-45deg); }
+
+  @media (max-width:880px){
+    .menu-toggle{ display:flex; }
+    .nav-links{
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(18,18,16,0.98);
+      backdrop-filter:blur(24px);
+      flex-direction:column; justify-content:center; align-items:center;
+      gap:32px; padding:40px; transform:translateY(-100%);
+      transition:transform .5s var(--ease); z-index:90;
+    }
+    .nav-links.open{ transform:translateY(0); }
+    .nav-links .nav-item{ font-size:22px; font-family:'Fraunces', serif; }
+    .nav-actions .nav-cta{ display:none; }
+  }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header{
+    padding:180px 0 90px;
+    position:relative;
+    border-bottom:1px solid var(--hairline-soft);
+  }
+  .page-header::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 30%, rgba(171,131,84,0.08), transparent 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--bronze-bright);
+    margin-bottom:16px;
+  }
+  .page-header h1{
+    font-size:clamp(38px, 5vw, 64px);
+    line-height:1.15;
+    font-weight:300;
+    max-width:920px;
+    margin-bottom:24px;
+  }
+  .page-header p.lead{
+    font-size:clamp(17px, 1.8vw, 21px);
+    color:var(--ivory-dim);
+    max-width:760px;
+    line-height:1.65;
+  }
+
+  /* ---------- ESSAY SECTION ---------- */
+  .essay-section{
+    padding:110px 0;
+  }
+  .essay-grid{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    gap:80px;
+  }
+  @media (max-width:880px){
+    .essay-grid{ grid-template-columns:1fr; gap:40px; }
+  }
+  .essay-sticky{
+    position:sticky;
+    top:120px;
+    height:fit-content;
+  }
+  .essay-sticky h3{
+    font-size:24px;
+    margin-bottom:16px;
+    color:var(--ivory);
+  }
+  .essay-sticky p{
+    font-size:14.5px;
+    color:var(--stone);
+    line-height:1.7;
+  }
+  .essay-body p{
+    font-size:18px;
+    color:var(--ivory-dim);
+    line-height:1.8;
+    margin-bottom:32px;
+    font-weight:300;
+  }
+  .essay-body p em{
+    color:var(--bronze-bright);
+    font-style:normal;
+  }
+  .pullquote{
+    border-left:2px solid var(--bronze);
+    padding:24px 0 24px 36px;
+    margin:56px 0;
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    line-height:1.4;
+    color:var(--ivory);
+    font-style:italic;
+  }
+
+  /* ---------- THREE PILLARS ---------- */
+  .pillars-section{
+    padding:110px 0;
+    background:var(--charcoal-2);
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .pillars-head{
+    text-align:center;
+    max-width:700px;
+    margin:0 auto 72px;
+  }
+  .pillars-head h2{ font-size:38px; margin-bottom:14px; font-weight:300; }
+  .pillars-head p{ color:var(--stone); font-size:16px; }
+
+  .pillars-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:36px;
+  }
+  @media (max-width:880px){
+    .pillars-grid{ grid-template-columns:1fr; gap:28px; }
+  }
+  .pillar-card{
+    background:var(--charcoal);
+    border:1px solid var(--hairline);
+    padding:44px 36px;
+    transition:border-color .3s ease;
+  }
+  .pillar-card:hover{ border-color:var(--bronze); }
+  .pillar-num{
+    font-family:'Fraunces', serif;
+    font-size:36px;
+    color:var(--bronze);
+    margin-bottom:18px;
+  }
+  .pillar-card h3{
+    font-size:22px;
+    margin-bottom:14px;
+  }
+  .pillar-card p{
+    font-size:15px;
+    color:var(--ivory-dim);
+    line-height:1.7;
+  }
+
+  /* ---------- BENCHMARK TABLE ---------- */
+  .benchmark-section{
+    padding:120px 0;
+  }
+  .table-wrap{
+    overflow-x:auto;
+    margin-top:48px;
+    border:1px solid var(--hairline);
+  }
+  table.archive-table{
+    width:100%;
+    border-collapse:collapse;
+    text-align:left;
+    font-size:14.5px;
+  }
+  table.archive-table th{
+    padding:20px 24px;
+    background:var(--charcoal-3);
+    color:var(--bronze-bright);
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    letter-spacing:0.04em;
+    border-bottom:1px solid var(--hairline);
+  }
+  table.archive-table td{
+    padding:22px 24px;
+    border-bottom:1px solid var(--hairline-soft);
+    color:var(--ivory-dim);
+  }
+  table.archive-table tr:hover td{
+    background:rgba(255,255,255,0.015);
+  }
+  table.archive-table tr:last-child td{
+    border-bottom:none;
+    color:var(--bronze-bright);
+    font-weight:400;
+    background:rgba(171,131,84,0.05);
+  }
+
+  /* ---------- CTA BANNER ---------- */
+  .cta-banner{
+    padding:120px 0;
+    background:var(--charcoal-3);
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+    text-align:center;
+  }
+  .cta-banner h2{ font-size:clamp(32px, 4vw, 50px); margin-bottom:18px; font-weight:300; }
+  .cta-banner p{ font-size:17px; color:var(--ivory-dim); max-width:620px; margin:0 auto 36px; }
+
+  .btn-primary{
+    display:inline-block; padding:16px 36px;
+    border:1px solid var(--bronze); color:var(--ivory);
+    font-size:13px; letter-spacing:0.08em; text-transform:uppercase;
+    position:relative; overflow:hidden; transition:color .4s ease;
+  }
+  .btn-primary .fill{ position:absolute; inset:0; background:var(--bronze); transform:translateX(-101%); z-index:0; transition:transform .4s var(--ease); }
+  .btn-primary:hover .fill{ transform:translateX(0); }
+  .btn-primary span:not(.fill){ position:relative; z-index:1; }
+  .btn-primary:hover{ color:var(--ink); }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:100px 0 50px; background:var(--charcoal); }
+  .footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:70px; }
+  @media (max-width:840px){ .footer-grid{ grid-template-columns:1fr 1fr; gap:36px; } }
+  @media (max-width:540px){ .footer-grid{ grid-template-columns:1fr; } }
+  .footer-brand p{ font-size:14px; color:var(--stone); max-width:320px; margin-top:16px; }
+  .footer-col h4{ font-family:'Inter', sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--bronze-bright); margin-bottom:18px; }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col a{ font-size:14px; color:var(--ivory-dim); transition:color .3s ease; }
+  .footer-col a:hover{ color:var(--bronze-bright); }
+  .foot-bottom{ border-top:1px solid var(--hairline-soft); padding-top:30px; display:flex; justify-content:space-between; font-size:12.5px; color:var(--stone); }
+
+  /* ---------- MODAL ---------- */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(9,8,7,0.6); backdrop-filter:blur(6px);
+    z-index:200; opacity:0; visibility:hidden; pointer-events:none;
+  }
+  .modal-backdrop.open{ pointer-events:auto; }
+  .modal{
+    position:fixed; top:50%; left:50%; width:min(520px, 88vw); max-height:86vh; overflow-y:auto;
+    background:var(--charcoal-2); border:1px solid var(--hairline); padding:48px 44px; z-index:201;
+    transform:translate(-50%,-50%) translateY(24px) scale(0.97); opacity:0; visibility:hidden;
+  }
+  .modal-close{ position:absolute; top:24px; right:28px; font-size:24px; color:var(--stone); line-height:1; }
+  .modal-close:hover{ color:var(--ivory); }
+  .modal .eyebrow{ font-size:12px; color:var(--bronze); letter-spacing:0.05em; margin-bottom:18px; }
+  .modal h3{ font-size:26px; font-weight:400; margin-bottom:14px; }
+  .modal p{ color:var(--ivory-dim); font-size:14.5px; margin-bottom:30px; }
+  .field{ margin-bottom:24px; }
+  .field label{ display:block; font-size:12px; letter-spacing:0.04em; color:var(--stone); margin-bottom:8px; }
+  .field input{
+    width:100%; background:var(--charcoal-3); border:1px solid var(--hairline);
+    color:var(--ivory); padding:14px 16px; font-family:inherit; font-size:14.5px;
+  }
+  .field input:focus{ outline:none; border-color:var(--bronze-bright); }
+  .submit-btn{
+    width:100%; padding:16px 24px; background:var(--charcoal-3); border:1px solid var(--bronze);
+    color:var(--ivory); font-size:13px; letter-spacing:0.08em; text-transform:uppercase; position:relative; overflow:hidden;
+  }
+  .submit-btn .fill{ position:absolute; inset:0; background:var(--bronze); transform:translateX(-101%); z-index:0; transition:transform .4s var(--ease); }
+  .submit-btn:hover .fill{ transform:translateX(0); }
+  .submit-btn span{ position:relative; z-index:1; }
+  .submit-btn:hover span{ color:var(--ink); }
+  .submit-btn.sent{ border-color:#7f9c86; }
+  .submit-btn:disabled{ opacity:0.6; cursor:not-allowed; }
+  .form-success{ font-size:14px; color:var(--bronze-bright); margin-top:18px; opacity:0; height:0; overflow:hidden; }
+  .form-error{ font-size:13.5px; color:#d97a7a; margin-top:14px; opacity:0; height:0; overflow:hidden; }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="wrap nav-wrap">
+    <a href="index.html" class="logotype"><b>Okay</b><span class="rule"></span><i>Legacy</i></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-item">Home</a>
+      <a href="services.html" class="nav-item">Services</a>
+      <a href="about.html" class="nav-item active">About</a>
+      <a href="pricing.html" class="nav-item">Pricing</a>
+      <a href="stories.html" class="nav-item">Stories</a>
+      <a href="contact.html" class="nav-item">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="contact.html" class="nav-cta">Enquire in confidence</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <div class="wrap">
+      <div class="eyebrow">Our Manifesto & Curatorial Standard</div>
+      <h1>We believe memories are sacred, not public commodities.</h1>
+      <p class="lead">In an era of disposable digital feeds and corporate clouds, Okay Legacy was founded on a singular conviction: the real stories, lessons, and voices of families deserve permanent, inviolable stewardship.</p>
+    </div>
+  </section>
+
+  <section class="essay-section">
+    <div class="wrap">
+      <div class="essay-grid">
+        <div class="essay-sticky">
+          <div class="eyebrow">The Premise</div>
+          <h3>Why Conventional Clouds Fail Legacies</h3>
+          <p>The modern internet was built for broadcast, advertisement, and algorithmic engagement. It was never engineered to hold sacred family memories across decades.</p>
+        </div>
+        <div class="essay-body">
+          <p>Every year, millions of family photographs, audio notes, and memories vanish into orphaned accounts, abandoned hard drives, and discontinued cloud services. When an account subscription lapses, or when platform terms of service shift, decades of family history disappear overnight.</p>
+          <p>Even worse is the public alternative: posting life stories on social platforms that monetize personal memories, index them for advertising, and expose private family heritage to public scrutiny.</p>
+          
+          <div class="pullquote">
+            "A memory is not an engagement metric. It is the spiritual inheritance of the people who come after you."
+          </div>
+
+          <p>Okay Legacy was formed to provide an uncompromising alternative. We combine the archival standards of ancient monastic libraries with post-quantum digital encryption and legal escrow protections.</p>
+          <p>We do not hold public accounts. We do not sell subscriptions that lock your family out if a credit card expires. When a vault is sealed, its physical master drives and hand-bound manuscripts belong entirely to your heirs or attorney, with <em>Okay Legacy retaining no copy</em>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pillars-section">
+    <div class="wrap">
+      <div class="pillars-head">
+        <div class="eyebrow">The Three Tenets</div>
+        <h2>The principles that govern every vault we build.</h2>
+        <p>Every recording session, manuscript bind, and cryptographic vault follows these three non-negotiable standards.</p>
+      </div>
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-num">01</div>
+          <h3>Absolute Secrecy</h3>
+          <p>Zero public directories. Zero advertising. Zero AI model training on your audio or manuscripts. Strict attorney escrow handoffs available upon request.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-num">02</div>
+          <h3>Physical Permanence</h3>
+          <p>Technology changes every decade; acid-free cotton paper and handcrafted walnut endure for centuries. We bind every story into tangible physical heirlooms.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-num">03</div>
+          <h3>Unvarnished Truth</h3>
+          <p>We don’t create corporate PR biographies. We preserve honest reflections, the cadence of speech, intimate confessions, and the true character of a life.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="benchmark-section">
+    <div class="wrap">
+      <div class="eyebrow">Longevity Benchmark</div>
+      <h2>Engineered to outlive platforms and format obsolescence.</h2>
+      <p style="color:var(--ivory-dim); max-width:640px; margin-top:12px;">See how Okay Legacy archival vaults compare against common digital storage methods.</p>
+
+      <div class="table-wrap">
+        <table class="archive-table">
+          <thead>
+            <tr>
+              <th>Storage Medium</th>
+              <th>Expected Lifespan</th>
+              <th>Vulnerability Risk</th>
+              <th>Confidentiality Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Consumer Cloud Storage (Drive/Dropbox)</td>
+              <td>2 – 7 Years (until billing lapses)</td>
+              <td>Corporate shutdown, account lockouts</td>
+              <td>Terms of service access, AI scanning</td>
+            </tr>
+            <tr>
+              <td>Consumer External Hard Drive (USB)</td>
+              <td>3 – 5 Years</td>
+              <td>Bit rot, magnetic decay, connector obsolescence</td>
+              <td>Easily misplaced or corrupted</td>
+            </tr>
+            <tr>
+              <td>Social Media Memory Archive</td>
+              <td>1 – 4 Years</td>
+              <td>Platform algorithms, policy deletion, privacy breaches</td>
+              <td>Public indexing & ad monetization</td>
+            </tr>
+            <tr>
+              <td>Okay Legacy Archival Vault & Manuscript</td>
+              <td>300+ Years</td>
+              <td>None (Acid-free cotton paper, dual solid-brass SSDs, legal escrow)</td>
+              <td>Zero-knowledge encrypted, legal attorney privilege</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="wrap">
+      <div class="eyebrow">Begin in Confidence</div>
+      <h2>Every life holds stories that deserve permanence.</h2>
+      <p>Speak directly with our founding directors to learn how an Okay Legacy vault is crafted for your estate.</p>
+      <a href="#" class="btn-primary" id="openModalBtn"><span class="fill"></span><span>Request a Private Conversation</span></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logotype"><b>Okay</b><span class="rule"></span><i>Legacy</i></div>
+        <p>Private digital and physical memory vaults for individuals, families, and dynasties.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="stories.html">Stories</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Oral History</a></li>
+          <li><a href="services.html">Cinematic Portrait</a></li>
+          <li><a href="services.html">Master Manuscript</a></li>
+          <li><a href="services.html">Heirloom Vault Box</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Confidentiality</h4>
+        <ul>
+          <li><a href="services.html">Attorney Escrow</a></li>
+          <li><a href="about.html">Zero-Knowledge Vault</a></li>
+          <li><a href="contact.html">Private Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Okay Legacy — Private Memory Vaults</div>
+      <div>Confidential by design</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="eyebrow" id="modalEyebrow">Private enquiry</div>
+    <h3 id="modalTitle">Begin Your Legacy</h3>
+    <p id="modalText">Share a few details and a member of our team will reach out personally to arrange a confidential first conversation.</p>
+    <form id="modalForm">
+      <div class="field">
+        <label for="mname">Full name</label>
+        <input type="text" id="mname" placeholder="Your name" required>
+      </div>
+      <div class="field">
+        <label for="memail">Email address</label>
+        <input type="email" id="memail" placeholder="you@example.com" required>
+      </div>
+      <button type="submit" class="submit-btn" id="modalSubmit"><span class="fill"></span><span>Send privately</span></button>
+      <div class="form-success" id="modalSuccess">Received. We will contact you within one business day.</div>
+      <div class="form-error" id="modalError">Unable to submit enquiry. Please try again.</div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* nav shrink */
+const nav = document.getElementById('siteNav');
+ScrollTrigger.create({
+  start: 20,
+  onUpdate: (self) => nav.classList.toggle('scrolled', self.scroll() > 20)
+});
+
+/* mobile nav */
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+if(menuToggle && navLinks){
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  });
+}
+
+/* Supabase client */
+const SUPABASE_URL = 'https://oemjojyrhrtjftlngozj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbWpvanlyaHJ0amZ0bG5nb3pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNDM2NDYsImV4cCI6MjEwNDYxOTY0Nn0.c99pVlW4z0SxYIcATgzSFHEYl8W3PmVpg5-eXwZZfjU';
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+/* Modal logic */
+const backdrop = document.getElementById('modalBackdrop');
+const modal = document.getElementById('modal');
+let modalOpen = false;
+
+function openModal(){
+  if(modalOpen) return;
+  modalOpen = true;
+  backdrop.classList.add('open');
+  gsap.set(backdrop, { visibility:'visible' });
+  gsap.set(modal, { visibility:'visible' });
+  gsap.to(backdrop, { opacity:1, duration:0.4, ease:"power2.out" });
+  gsap.to(modal, { opacity:1, y:0, scale:1, duration:0.55, ease:"power3.out" });
+}
+
+function closeModal(){
+  modalOpen = false;
+  gsap.to(modal, { opacity:0, y:24, scale:0.97, duration:0.35, ease:"power2.in" });
+  gsap.to(backdrop, { opacity:0, duration:0.35, ease:"power2.in", onComplete:() => {
+    backdrop.classList.remove('open');
+    gsap.set(backdrop, { visibility:'hidden' });
+    gsap.set(modal, { visibility:'hidden' });
+  }});
+}
+
+document.getElementById('openModalBtn')?.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+document.getElementById('modalClose')?.addEventListener('click', closeModal);
+backdrop.addEventListener('click', (e) => { if(e.target === backdrop) closeModal(); });
+document.addEventListener('keydown', (e) => { if(e.key === 'Escape' && modalOpen) closeModal(); });
+
+/* modal submit */
+document.getElementById('modalForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('modalSubmit');
+  const btnText = btn.querySelector('span:last-child');
+  const success = document.getElementById('modalSuccess');
+  const errorEl = document.getElementById('modalError');
+  const nameInput = document.getElementById('mname');
+  const emailInput = document.getElementById('memail');
+
+  if(errorEl){ errorEl.style.height = '0'; errorEl.style.opacity = '0'; }
+  btn.disabled = true;
+  const originalText = btnText.textContent;
+  btnText.textContent = "Sending privately...";
+
+  try {
+    if(!supabaseClient) throw new Error("Database client not available");
+    const { error } = await supabaseClient.from('inquiries').insert([{
+      full_name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      tier: 'About Page Inquiry',
+      message: 'Inquiry submitted from About page'
+    }]);
+
+    if(error) throw error;
+
+    btn.classList.add('sent');
+    btnText.textContent = "Sent privately";
+    gsap.to(success, { opacity:1, height:'auto', duration:0.5, ease:"power2.out" });
+    nameInput.value = '';
+    emailInput.value = '';
+    setTimeout(() => {
+      closeModal();
+      setTimeout(() => {
+        btn.classList.remove('sent');
+        btnText.textContent = originalText;
+        btn.disabled = false;
+        gsap.set(success, { opacity:0, height:0 });
+      }, 600);
+    }, 2200);
+  } catch(err){
+    console.error("Submission error:", err);
+    errorEl.textContent = "Unable to send right now. Please try again or email us directly.";
+    gsap.to(errorEl, { opacity:1, height:'auto', duration:0.4, ease:"power2.out" });
+    btn.disabled = false;
+    btnText.textContent = originalText;
+  }
+});
+</script>
+</body>
+</html>

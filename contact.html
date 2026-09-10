@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Private Consultation — Okay Legacy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --charcoal: #121210;
+    --charcoal-2: #1a1916;
+    --charcoal-3: #201f1a;
+    --ivory: #f3ede1;
+    --ivory-dim: #d9d1bf;
+    --ink: #0c0b09;
+    --bronze: #ab8354;
+    --bronze-bright: #cfa06a;
+    --bronze-dim: #6e5636;
+    --stone: #948c78;
+    --hairline: rgba(171,131,84,0.22);
+    --hairline-soft: rgba(243,237,225,0.1);
+    --ease: cubic-bezier(.19,1,.22,1);
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--charcoal);
+    color:var(--ivory);
+    font-family:'Inter', sans-serif;
+    font-weight:300;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{ background:var(--bronze-dim); color:var(--ivory); }
+
+  h1,h2,h3,h4{
+    font-family:'Fraunces', serif;
+    font-weight:400;
+    letter-spacing:-0.01em;
+    color:var(--ivory);
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; }
+
+  .wrap{
+    max-width:1240px;
+    margin:0 auto;
+    padding:0 48px;
+  }
+  @media (max-width:768px){ .wrap{ padding:0 24px; } }
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible{
+    outline:1px solid var(--bronze-bright);
+    outline-offset:4px;
+  }
+
+  /* ---------- NAV ---------- */
+  header.site-nav{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    padding:26px 0;
+    transition:padding .5s var(--ease), background .5s var(--ease), border-color .5s var(--ease);
+    border-bottom:1px solid transparent;
+  }
+  header.site-nav.scrolled{
+    padding:16px 0;
+    background:rgba(18,18,16,0.86);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .nav-wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logotype{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:'Fraunces', serif;
+    font-size:18px;
+    letter-spacing:0.02em;
+    color:var(--ivory);
+    text-decoration:none;
+  }
+  .logotype span.rule{ width:1px; height:16px; background:var(--bronze); display:inline-block; }
+  .logotype b{ font-weight:500; }
+  .logotype i{ font-style:italic; font-weight:300; color:var(--stone); }
+
+  .nav-links{ display:flex; align-items:center; gap:28px; }
+  .nav-item{
+    font-size:13.5px;
+    letter-spacing:0.02em;
+    color:var(--ivory-dim);
+    transition:color .3s ease;
+    position:relative;
+    padding:4px 0;
+  }
+  .nav-item:hover, .nav-item.active{ color:var(--bronze-bright); }
+  .nav-item.active::after{
+    content:'';
+    position:absolute; bottom:0; left:0; right:0;
+    height:1px; background:var(--bronze);
+  }
+
+  .nav-actions{ display:flex; align-items:center; gap:20px; }
+  .nav-cta{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--ivory-dim);
+    border-bottom:1px solid var(--bronze-dim);
+    padding-bottom:3px;
+    transition:color .3s ease, border-color .3s ease;
+  }
+  .nav-cta:hover{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
+
+  .menu-toggle{
+    display:none; flex-direction:column; gap:6px;
+    width:28px; height:20px; justify-content:center;
+    background:none; border:none; cursor:pointer; padding:0; z-index:101;
+  }
+  .menu-toggle span{
+    display:block; width:100%; height:1.5px;
+    background:var(--ivory); transition:transform .3s ease, opacity .3s ease;
+  }
+  .menu-toggle.open span:first-child{ transform:translateY(3.75px) rotate(45deg); }
+  .menu-toggle.open span:last-child{ transform:translateY(-3.75px) rotate(-45deg); }
+
+  @media (max-width:880px){
+    .menu-toggle{ display:flex; }
+    .nav-links{
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      background:rgba(18,18,16,0.98);
+      backdrop-filter:blur(24px);
+      flex-direction:column; justify-content:center; align-items:center;
+      gap:32px; padding:40px; transform:translateY(-100%);
+      transition:transform .5s var(--ease); z-index:90;
+    }
+    .nav-links.open{ transform:translateY(0); }
+    .nav-links .nav-item{ font-size:22px; font-family:'Fraunces', serif; }
+    .nav-actions .nav-cta{ display:none; }
+  }
+
+  /* ---------- PAGE HEADER ---------- */
+  .page-header{
+    padding:180px 0 70px;
+    position:relative;
+    border-bottom:1px solid var(--hairline-soft);
+  }
+  .page-header::before{
+    content:"";
+    position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 30%, rgba(171,131,84,0.08), transparent 70%);
+    pointer-events:none;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--bronze-bright);
+    margin-bottom:16px;
+  }
+  .page-header h1{
+    font-size:clamp(38px, 5vw, 64px);
+    line-height:1.15;
+    font-weight:300;
+    max-width:880px;
+    margin-bottom:24px;
+  }
+  .page-header p.lead{
+    font-size:clamp(17px, 1.8vw, 21px);
+    color:var(--ivory-dim);
+    max-width:720px;
+    line-height:1.65;
+  }
+
+  /* ---------- CONTACT SECTION ---------- */
+  .contact-section{
+    padding:90px 0 120px;
+  }
+  .contact-layout{
+    display:grid;
+    grid-template-columns:1fr 1.3fr;
+    gap:80px;
+  }
+  @media (max-width:880px){
+    .contact-layout{ grid-template-columns:1fr; gap:60px; }
+  }
+
+  /* Concierge info */
+  .concierge-info h2{
+    font-size:32px;
+    margin-bottom:18px;
+    font-weight:400;
+  }
+  .concierge-info p{
+    color:var(--ivory-dim);
+    font-size:16px;
+    line-height:1.75;
+    margin-bottom:36px;
+  }
+  .detail-list{
+    display:flex;
+    flex-direction:column;
+    gap:24px;
+    margin-bottom:48px;
+  }
+  .detail-item{
+    border-bottom:1px solid var(--hairline-soft);
+    padding-bottom:16px;
+  }
+  .detail-label{
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--bronze);
+    margin-bottom:6px;
+  }
+  .detail-value{
+    font-size:16px;
+    color:var(--ivory);
+  }
+
+  .trustee-callout{
+    background:var(--charcoal-2);
+    border:1px solid var(--hairline);
+    padding:28px 24px;
+    border-left:3px solid var(--bronze);
+  }
+  .trustee-callout h3{
+    font-size:18px;
+    margin-bottom:8px;
+  }
+  .trustee-callout p{
+    font-size:14px;
+    color:var(--stone);
+    line-height:1.6;
+    margin-bottom:0;
+  }
+
+  /* Full Contact Form */
+  .contact-form-box{
+    background:var(--charcoal-2);
+    border:1px solid var(--hairline);
+    padding:56px 48px;
+  }
+  @media (max-width:600px){
+    .contact-form-box{ padding:36px 24px; }
+  }
+
+  .form-title{
+    font-family:'Fraunces', serif;
+    font-size:26px;
+    margin-bottom:8px;
+  }
+  .form-sub{
+    font-size:14.5px;
+    color:var(--stone);
+    margin-bottom:36px;
+  }
+
+  .form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+  }
+  @media (max-width:600px){ .form-row{ grid-template-columns:1fr; } }
+
+  .field{ margin-bottom:24px; }
+  .field label{ display:block; font-size:12px; letter-spacing:0.04em; color:var(--stone); margin-bottom:8px; }
+  .field input, .field textarea, .field select{
+    width:100%; background:var(--charcoal-3); border:1px solid var(--hairline);
+    color:var(--ivory); padding:14px 16px; font-family:inherit; font-size:14.5px;
+    font-weight:300; transition:border-color .3s ease;
+  }
+  .field input:focus, .field textarea:focus, .field select:focus{ outline:none; border-color:var(--bronze-bright); }
+  .field textarea{ min-height:130px; resize:vertical; }
+
+  .submit-btn{
+    width:100%; padding:18px 24px; background:var(--charcoal-3); border:1px solid var(--bronze);
+    color:var(--ivory); font-size:13px; letter-spacing:0.08em; text-transform:uppercase;
+    position:relative; overflow:hidden; transition:border-color .4s ease, color .4s ease;
+  }
+  .submit-btn .fill{ position:absolute; inset:0; background:var(--bronze); transform:translateX(-101%); z-index:0; transition:transform .4s var(--ease); }
+  .submit-btn:hover .fill{ transform:translateX(0); }
+  .submit-btn span{ position:relative; z-index:1; }
+  .submit-btn:hover span{ color:var(--ink); }
+  .submit-btn.sent{ border-color:#7f9c86; }
+  .submit-btn:disabled{ opacity:0.6; cursor:not-allowed; }
+
+  .form-success{ font-size:14.5px; color:var(--bronze-bright); margin-top:20px; opacity:0; height:0; overflow:hidden; }
+  .form-error{ font-size:13.5px; color:#d97a7a; margin-top:14px; opacity:0; height:0; overflow:hidden; }
+
+  /* ---------- EXPECTATIONS TIMELINE ---------- */
+  .timeline-section{
+    padding:100px 0;
+    background:var(--charcoal-3);
+    border-top:1px solid var(--hairline);
+    border-bottom:1px solid var(--hairline);
+  }
+  .timeline-head{ text-align:center; max-width:680px; margin:0 auto 64px; }
+  .timeline-head h2{ font-size:36px; margin-bottom:14px; font-weight:300; }
+  .timeline-head p{ color:var(--stone); font-size:16px; }
+
+  .timeline-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:40px;
+  }
+  @media (max-width:840px){ .timeline-grid{ grid-template-columns:1fr; gap:32px; } }
+
+  .step-box{
+    border:1px solid var(--hairline);
+    background:var(--charcoal-2);
+    padding:40px 32px;
+  }
+  .step-num{
+    font-family:'Fraunces', serif;
+    font-size:32px;
+    color:var(--bronze);
+    margin-bottom:16px;
+  }
+  .step-box h3{ font-size:20px; margin-bottom:12px; }
+  .step-box p{ font-size:14.5px; color:var(--ivory-dim); line-height:1.7; }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding:100px 0 50px; background:var(--charcoal); }
+  .footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:70px; }
+  @media (max-width:840px){ .footer-grid{ grid-template-columns:1fr 1fr; gap:36px; } }
+  @media (max-width:540px){ .footer-grid{ grid-template-columns:1fr; } }
+  .footer-brand p{ font-size:14px; color:var(--stone); max-width:320px; margin-top:16px; }
+  .footer-col h4{ font-family:'Inter', sans-serif; font-size:12px; text-transform:uppercase; letter-spacing:0.12em; color:var(--bronze-bright); margin-bottom:18px; }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:12px; }
+  .footer-col a{ font-size:14px; color:var(--ivory-dim); transition:color .3s ease; }
+  .footer-col a:hover{ color:var(--bronze-bright); }
+  .foot-bottom{ border-top:1px solid var(--hairline-soft); padding-top:30px; display:flex; justify-content:space-between; font-size:12.5px; color:var(--stone); }
+</style>
+</head>
+<body>
+
+<header class="site-nav" id="siteNav">
+  <div class="wrap nav-wrap">
+    <a href="index.html" class="logotype"><b>Okay</b><span class="rule"></span><i>Legacy</i></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-item">Home</a>
+      <a href="services.html" class="nav-item">Services</a>
+      <a href="about.html" class="nav-item">About</a>
+      <a href="pricing.html" class="nav-item">Pricing</a>
+      <a href="stories.html" class="nav-item">Stories</a>
+      <a href="contact.html" class="nav-item active">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="contact.html" class="nav-cta">Enquire in confidence</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="page-header">
+    <div class="wrap">
+      <div class="eyebrow">Private Concierge Intake</div>
+      <h1>Begin with a confidential conversation.</h1>
+      <p class="lead">Every commission begins with an unhurried, private dialogue. Whether you are inquiring for yourself, a family member, or on behalf of an estate office, we maintain strict discretion from the first moment of contact.</p>
+    </div>
+  </section>
+
+  <section class="contact-section">
+    <div class="wrap">
+      <div class="contact-layout">
+        
+        <!-- Concierge Column -->
+        <div class="concierge-info">
+          <h2>Our intake is handled personally.</h2>
+          <p>We do not use automated triage bots or sales representatives. Your inquiry is reviewed directly by our founding curatorial partners.</p>
+          
+          <div class="detail-list">
+            <div class="detail-item">
+              <div class="detail-label">Confidential Correspondence</div>
+              <div class="detail-value">enquiries@okaylegacy.com</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Private Line</div>
+              <div class="detail-value">By scheduled appointment only</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Hours of Intake</div>
+              <div class="detail-value">Monday – Friday, 9:00 – 18:00 (Global timezones accommodated)</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-label">Geographic Reach</div>
+              <div class="detail-value">Global travel for on-location recordings</div>
+            </div>
+          </div>
+
+          <div class="trustee-callout">
+            <h3>Family Offices & Legal Trustees</h3>
+            <p>If you represent a client under attorney-client privilege or family office governance, please indicate so in your note. We will coordinate directly with your designated counsel for secure communication protocols.</p>
+          </div>
+        </div>
+
+        <!-- Form Column -->
+        <div class="contact-form-box">
+          <div class="form-title">Request a Consultation</div>
+          <div class="form-sub">We will respond privately within one business day.</div>
+
+          <form id="dedicatedContactForm">
+            <div class="form-row">
+              <div class="field">
+                <label for="cname">Full Name *</label>
+                <input type="text" id="cname" placeholder="Your name" required>
+              </div>
+              <div class="field">
+                <label for="cemail">Email Address *</label>
+                <input type="email" id="cemail" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="field">
+                <label for="cphone">Direct Phone / Signal (Optional)</label>
+                <input type="tel" id="cphone" placeholder="+1 (555) 000-0000">
+              </div>
+              <div class="field">
+                <label for="ctier">Interest / Preferred Tier</label>
+                <select id="ctier">
+                  <option value="Undecided / Custom">Undecided / Custom Exploration</option>
+                  <option value="Private Reserve">Private Reserve ($18,500)</option>
+                  <option value="Family Estate">Family Estate ($38,000)</option>
+                  <option value="Archival Legacy">Archival Legacy ($75,000)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="ctimeline">Preferred Timeline</label>
+              <select id="ctimeline">
+                <option value="Within 30–60 days">Within the next 30–60 days</option>
+                <option value="Next 3–6 months">Within the next 3–6 months</option>
+                <option value="Exploratory / Future Planning">Exploratory / Future estate planning</option>
+                <option value="Urgent / Health Sensitivity">Time-sensitive / Health priority</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="cmessage">A Brief Note on the Life or Stories to Preserve</label>
+              <textarea id="cmessage" placeholder="Tell us a little about the person, family, or memories you would like preserved in an Okay Legacy vault..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" id="contactSubmit">
+              <span class="fill"></span>
+              <span id="contactSubmitLabel">Request Private Consultation</span>
+            </button>
+
+            <div class="form-success" id="contactSuccess">
+              Thank you. Your request has been securely received in strict confidence. A curatorial director will reach out personally within one business day.
+            </div>
+            <div class="form-error" id="contactError">
+              Unable to transmit enquiry. Please check your connection or contact us directly at enquiries@okaylegacy.com.
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Expectations Section -->
+  <section class="timeline-section">
+    <div class="wrap">
+      <div class="timeline-head">
+        <div class="eyebrow">What to Expect</div>
+        <h2>The Consultation Process</h2>
+        <p>A transparent look at how our first conversation unfolds.</p>
+      </div>
+
+      <div class="timeline-grid">
+        <div class="step-box">
+          <div class="step-num">01</div>
+          <h3>Confidential Intake</h3>
+          <p>A 30-minute private phone or video dialogue to understand the subject's background, disposition, and key life milestones.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-num">02</div>
+          <h3>Curatorial Blueprint</h3>
+          <p>We formulate an interview thematic roadmap, archival asset inventory (photos, letters, reels), and schedule travel logistics.</p>
+        </div>
+        <div class="step-box">
+          <div class="step-num">03</div>
+          <h3>Vault Commissioning</h3>
+          <p>Formal proposal review, confidentiality and privilege agreements, and scheduling of the initial recording sessions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logotype"><b>Okay</b><span class="rule"></span><i>Legacy</i></div>
+        <p>Private digital and physical memory vaults for individuals, families, and dynasties.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="services.html">Services</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="stories.html">Stories</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="services.html">Oral History</a></li>
+          <li><a href="services.html">Cinematic Portrait</a></li>
+          <li><a href="services.html">Master Manuscript</a></li>
+          <li><a href="services.html">Heirloom Vault Box</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Confidentiality</h4>
+        <ul>
+          <li><a href="services.html">Attorney Escrow</a></li>
+          <li><a href="about.html">Zero-Knowledge Vault</a></li>
+          <li><a href="contact.html">Private Inquiries</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Okay Legacy — Private Memory Vaults</div>
+      <div>Confidential by design</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* nav shrink */
+const nav = document.getElementById('siteNav');
+ScrollTrigger.create({
+  start: 20,
+  onUpdate: (self) => nav.classList.toggle('scrolled', self.scroll() > 20)
+});
+
+/* mobile nav */
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
+if(menuToggle && navLinks){
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('open');
+    navLinks.classList.toggle('open');
+    document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+  });
+}
+
+/* Supabase client */
+const SUPABASE_URL = 'https://oemjojyrhrtjftlngozj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbWpvanlyaHJ0amZ0bG5nb3pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNDM2NDYsImV4cCI6MjEwNDYxOTY0Nn0.c99pVlW4z0SxYIcATgzSFHEYl8W3PmVpg5-eXwZZfjU';
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+/* Dedicated Contact Form Submission */
+document.getElementById('dedicatedContactForm').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn = document.getElementById('contactSubmit');
+  const label = document.getElementById('contactSubmitLabel');
+  const success = document.getElementById('contactSuccess');
+  const errorEl = document.getElementById('contactError');
+  
+  const name = document.getElementById('cname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const phone = document.getElementById('cphone').value.trim();
+  const tier = document.getElementById('ctier').value;
+  const timeline = document.getElementById('ctimeline').value;
+  const message = document.getElementById('cmessage').value.trim();
+
+  if(errorEl){ errorEl.style.height = '0'; errorEl.style.opacity = '0'; }
+  btn.disabled = true;
+  const originalLabel = label.textContent;
+  label.textContent = "Transmitting securely...";
+
+  try {
+    if(!supabaseClient) throw new Error("Database client not available");
+    
+    // Combine phone, timeline, and message into message body
+    const formattedMessage = [
+      phone ? `Phone: ${phone}` : null,
+      timeline ? `Timeline: ${timeline}` : null,
+      message ? `Story Notes: ${message}` : null
+    ].filter(Boolean).join('\n\n');
+
+    const { error } = await supabaseClient.from('inquiries').insert([{
+      full_name: name,
+      email: email,
+      tier: tier,
+      message: formattedMessage || 'Consultation request from Contact Page'
+    }]);
+
+    if(error) throw error;
+
+    btn.classList.add('sent');
+    label.textContent = "Request Received in Confidence";
+    gsap.to(success, { opacity:1, height:'auto', duration:0.6, ease:"power2.out" });
+    
+    document.getElementById('dedicatedContactForm').reset();
+  } catch(err){
+    console.error("Submission error:", err);
+    errorEl.textContent = "Unable to transmit enquiry. Please check your connection or email enquiries@okaylegacy.com directly.";
+    gsap.to(errorEl, { opacity:1, height:'auto', duration:0.4, ease:"power2.out" });
+    btn.disabled = false;
+    label.textContent = originalLabel;
+  }
+});
+</script>
+</body>
+</html>
