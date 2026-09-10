@@ -525,6 +525,13 @@
     font-size:14px; color:var(--bronze-bright);
     margin-top:18px; opacity:0; height:0; overflow:hidden;
   }
+  .form-error{
+    font-size:13.5px; color:#d97a7a;
+    margin-top:14px; opacity:0; height:0; overflow:hidden;
+  }
+  .submit-btn:disabled{
+    opacity:0.6; cursor:not-allowed;
+  }
 
   @media (max-width:840px){ .contact-grid{ grid-template-columns:1fr; gap:56px; } }
 
@@ -780,6 +787,7 @@
         </div>
         <button type="submit" class="submit-btn" id="submitBtn"><span class="fill"></span><span id="submitLabel">Request a private consultation</span></button>
         <div class="form-success" id="formSuccess">Thank you. Your enquiry has been received in confidence — we will be in touch within one business day.</div>
+        <div class="form-error" id="formError">Unable to submit enquiry. Please try again.</div>
       </form>
     </div>
     <div class="foot-bottom">
@@ -806,10 +814,12 @@
       </div>
       <button type="submit" class="submit-btn" id="modalSubmit"><span class="fill"></span><span>Send privately</span></button>
       <div class="form-success" id="modalSuccess">Received. We will contact you within one business day.</div>
+      <div class="form-error" id="modalError">Unable to submit enquiry. Please try again.</div>
     </form>
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -908,14 +918,26 @@ document.querySelectorAll('.btn-primary, .submit-btn').forEach((btn) => {
   btn.addEventListener('mouseleave', () => gsap.to(fill, { x:'-101%', duration:0.4, ease:"power3.inOut" }));
 });
 
+/* ---------- SUPABASE CLIENT ---------- */
+const SUPABASE_URL = 'https://oemjojyrhrtjftlngozj.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbWpvanlyaHJ0amZ0bG5nb3pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNDM2NDYsImV4cCI6MjEwNDYxOTY0Nn0.c99pVlW4z0SxYIcATgzSFHEYl8W3PmVpg5-eXwZZfjU';
+const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
 /* ---------- MODAL ---------- */
 const backdrop = document.getElementById('modalBackdrop');
 const modal = document.getElementById('modal');
 let modalOpen = false;
+let currentSelectedTier = 'General Enquiry';
 
 function openModal(tierName){
   if(modalOpen) return;
   modalOpen = true;
+  currentSelectedTier = tierName || 'General Enquiry';
+  const modalErr = document.getElementById('modalError');
+  const modalSucc = document.getElementById('modalSuccess');
+  if(modalErr) { modalErr.style.height = '0'; modalErr.style.opacity = '0'; }
+  if(modalSucc) { modalSucc.style.height = '0'; modalSucc.style.opacity = '0'; }
+
   if(tierName){
     document.getElementById('modalEyebrow').textContent = "Private enquiry — " + tierName;
     document.getElementById('modalTitle').textContent = tierName;
@@ -951,25 +973,95 @@ document.querySelectorAll('.tier-card').forEach((card) => {
   card.addEventListener('click', () => openModal(card.dataset.tier));
 });
 
-/* modal form fake-submit */
-document.getElementById('modalForm').addEventListener('submit', function(e){
+/* modal form Supabase submit */
+document.getElementById('modalForm').addEventListener('submit', async function(e){
   e.preventDefault();
   const btn = document.getElementById('modalSubmit');
+  const btnText = btn.querySelector('span:last-child');
   const success = document.getElementById('modalSuccess');
-  btn.classList.add('sent');
-  gsap.to(success, { opacity:1, height:'auto', duration:0.5, ease:"power2.out" });
-  setTimeout(closeModal, 2200);
+  const errorEl = document.getElementById('modalError');
+  const nameInput = document.getElementById('mname');
+  const emailInput = document.getElementById('memail');
+
+  if(errorEl) { errorEl.style.height = '0'; errorEl.style.opacity = '0'; }
+  btn.disabled = true;
+  const originalText = btnText.textContent;
+  btnText.textContent = "Sending privately...";
+
+  try {
+    if (!supabaseClient) throw new Error("Database client not initialized");
+    const { error } = await supabaseClient.from('inquiries').insert([{
+      full_name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      tier: currentSelectedTier,
+      message: "Enquiry requested via " + currentSelectedTier + " modal"
+    }]);
+
+    if (error) throw error;
+
+    btn.classList.add('sent');
+    btnText.textContent = "Sent privately";
+    gsap.to(success, { opacity:1, height:'auto', duration:0.5, ease:"power2.out" });
+    nameInput.value = '';
+    emailInput.value = '';
+    setTimeout(() => {
+      closeModal();
+      setTimeout(() => {
+        btn.classList.remove('sent');
+        btnText.textContent = originalText;
+        btn.disabled = false;
+        gsap.set(success, { opacity:0, height:0 });
+      }, 600);
+    }, 2200);
+  } catch(err) {
+    console.error("Submission error:", err);
+    errorEl.textContent = "Unable to send right now. Please try again or email us directly.";
+    gsap.to(errorEl, { opacity:1, height:'auto', duration:0.4, ease:"power2.out" });
+    btn.disabled = false;
+    btnText.textContent = originalText;
+  }
 });
 
-/* main contact form fake-submit */
-document.getElementById('inquiryForm').addEventListener('submit', function(e){
+/* main contact form Supabase submit */
+document.getElementById('inquiryForm').addEventListener('submit', async function(e){
   e.preventDefault();
   const btn = document.getElementById('submitBtn');
   const label = document.getElementById('submitLabel');
   const success = document.getElementById('formSuccess');
-  btn.classList.add('sent');
-  label.textContent = "Enquiry received";
-  gsap.to(success, { opacity:1, height:'auto', duration:0.6, ease:"power2.out" });
+  const errorEl = document.getElementById('formError');
+  const nameInput = document.getElementById('fname');
+  const emailInput = document.getElementById('femail');
+  const msgInput = document.getElementById('fmessage');
+
+  if(errorEl) { errorEl.style.height = '0'; errorEl.style.opacity = '0'; }
+  btn.disabled = true;
+  const originalLabel = label.textContent;
+  label.textContent = "Transmitting enquiry...";
+
+  try {
+    if (!supabaseClient) throw new Error("Database client not initialized");
+    const { error } = await supabaseClient.from('inquiries').insert([{
+      full_name: nameInput.value.trim(),
+      email: emailInput.value.trim(),
+      tier: 'Consultation Request',
+      message: msgInput.value.trim() || null
+    }]);
+
+    if (error) throw error;
+
+    btn.classList.add('sent');
+    label.textContent = "Enquiry received";
+    gsap.to(success, { opacity:1, height:'auto', duration:0.6, ease:"power2.out" });
+    nameInput.value = '';
+    emailInput.value = '';
+    msgInput.value = '';
+  } catch(err) {
+    console.error("Submission error:", err);
+    errorEl.textContent = "Unable to submit enquiry. Please try again or contact enquiries@okaylegacy.com";
+    gsap.to(errorEl, { opacity:1, height:'auto', duration:0.4, ease:"power2.out" });
+    btn.disabled = false;
+    label.textContent = originalLabel;
+  }
 });
 </script>
 </body>
