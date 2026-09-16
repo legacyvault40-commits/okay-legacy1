@@ -549,7 +549,6 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -573,10 +572,20 @@ if(menuToggle && navLinks){
   });
 }
 
-/* Supabase client */
-const SUPABASE_URL = 'https://oemjojyrhrtjftlngozj.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9lbWpvanlyaHJ0amZ0bG5nb3pqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODkwNDM2NDYsImV4cCI6MjEwNDYxOTY0Nn0.c99pVlW4z0SxYIcATgzSFHEYl8W3PmVpg5-eXwZZfjU';
-const supabaseClient = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+/* ---------- ENQUIRY API ---------- */
+const OKAY_LEGACY_API = 'https://65qj856uhb.execute-api.us-east-1.amazonaws.com';
+async function submitInquiry(payload) {
+  const res = await fetch(OKAY_LEGACY_API + '/inquiries', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    const detail = await res.json().catch(() => ({}));
+    throw new Error(detail.error || 'Enquiry could not be sent');
+  }
+  return res.json();
+}
 
 /* Dedicated Contact Form Submission */
 document.getElementById('dedicatedContactForm').addEventListener('submit', async function(e){
@@ -599,8 +608,6 @@ document.getElementById('dedicatedContactForm').addEventListener('submit', async
   label.textContent = "Transmitting securely...";
 
   try {
-    if(!supabaseClient) throw new Error("Database client not available");
-    
     // Combine phone, timeline, and message into message body
     const formattedMessage = [
       phone ? `Phone: ${phone}` : null,
@@ -608,14 +615,12 @@ document.getElementById('dedicatedContactForm').addEventListener('submit', async
       message ? `Story Notes: ${message}` : null
     ].filter(Boolean).join('\n\n');
 
-    const { error } = await supabaseClient.from('inquiries').insert([{
+    await submitInquiry({
       full_name: name,
       email: email,
       tier: tier,
       message: formattedMessage || 'Consultation request from Contact Page'
-    }]);
-
-    if(error) throw error;
+    });
 
     btn.classList.add('sent');
     label.textContent = "Request Received in Confidence";
