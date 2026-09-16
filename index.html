@@ -148,6 +148,19 @@
   }
   .nav-cta:hover{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
 
+  .nav-signin{
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--ivory-dim);
+    border:1px solid var(--bronze-dim);
+    border-radius:999px;
+    padding:7px 16px;
+    white-space:nowrap;
+    transition:color .3s ease, border-color .3s ease;
+  }
+  .nav-signin:hover{ color:var(--bronze-bright); border-color:var(--bronze-bright); }
+  .nav-links .nav-signin-mobile{ display:none; }
+
   .menu-toggle{
     display:none;
     flex-direction:column;
@@ -200,6 +213,9 @@
     }
     .nav-actions .nav-cta{
       display:none;
+    }
+    .nav-links .nav-signin-mobile{
+      display:block;
     }
   }
 
@@ -685,9 +701,11 @@
       <a href="pricing.html" class="nav-item">Pricing</a>
       <a href="stories.html" class="nav-item">Stories</a>
       <a href="contact.html" class="nav-item">Contact</a>
+      <a href="https://app.okay-legacy.com" class="nav-item nav-signin-mobile">Sign in</a>
     </nav>
     <div class="nav-actions">
       <a href="contact.html" class="nav-cta">Enquire in confidence</a>
+      <a href="https://app.okay-legacy.com" class="nav-signin">Sign in</a>
       <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
         <span></span>
         <span></span>
