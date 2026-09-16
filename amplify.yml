@@ -1,0 +1,21 @@
+version: 1
+frontend:
+  phases:
+    build:
+      commands:
+        # The enquiry endpoint is baked into the static HTML, so a test
+        # enquiry from the dev site would otherwise land in the production
+        # pipeline as a real lead. Point the dev branch at staging instead.
+        - |
+          if [ "$AWS_BRANCH" = "dev" ]; then
+            sed -i "s|https://65qj856uhb.execute-api.us-east-1.amazonaws.com|https://z1489vlcek.execute-api.us-east-1.amazonaws.com|g" *.html
+            echo "dev branch: enquiries routed to the staging API"
+          else
+            echo "$AWS_BRANCH branch: enquiries routed to the production API"
+          fi
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths: []
