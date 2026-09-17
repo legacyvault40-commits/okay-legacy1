@@ -3,15 +3,18 @@ frontend:
   phases:
     build:
       commands:
-        # The enquiry endpoint is baked into the static HTML, so a test
-        # enquiry from the dev site would otherwise land in the production
-        # pipeline as a real lead. Point the dev branch at staging instead.
+        # Both the enquiry endpoint and the sign-in link are baked into the
+        # static HTML, so without this the dev site would file real leads
+        # into the production pipeline and send testers to the production
+        # login. Point the dev branch at staging for both.
         - |
           if [ "$AWS_BRANCH" = "dev" ]; then
             sed -i "s|https://65qj856uhb.execute-api.us-east-1.amazonaws.com|https://z1489vlcek.execute-api.us-east-1.amazonaws.com|g" *.html
-            echo "dev branch: enquiries routed to the staging API"
+            sed -i "s|https://app.okay-legacy.com|https://dev.dhv0pcrwd3n2i.amplifyapp.com|g" *.html
+            echo "dev branch: enquiries and sign-in routed to staging"
+            grep -o 'https://[a-z0-9.-]*amplifyapp.com/login' index.html | sort -u
           else
-            echo "$AWS_BRANCH branch: enquiries routed to the production API"
+            echo "$AWS_BRANCH branch: enquiries and sign-in routed to production"
           fi
   artifacts:
     baseDirectory: /
